@@ -1,7 +1,8 @@
 # Личный проект «Кекстаграм» [![Build status][travis-image]][travis-url]
 
 * Студент: [Катерина Пшеничнова](https://up.htmlacademy.ru/javascript/14/user/692341).
-* Наставник: `Неизвестно`.
+* Наставник: [Семен Целищев]
+(https://up.htmlacademy.ru/javascript/14/user/396229).
 
 ---
 
