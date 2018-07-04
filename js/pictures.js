@@ -196,28 +196,28 @@ scaleEffectValue.setAttribute('max', '100');
 
 var setFilterValue = function (filterName, filterValue) {
   var saturation = filterValue / scaleEffectValue.getAttribute('max');
-  switch(filterName) {
+  switch (filterName) {
     case 'effects__preview--chrome':
-    uploadPreview.style.filter = 'grayscale(' + saturation + ')'
-    break;
+      uploadPreview.style.filter = 'grayscale(' + saturation + ')';
+      break;
     case 'effects__preview--sepia':
-    uploadPreview.style.filter = 'sepia(' + saturation + ')'
-    break;
+      uploadPreview.style.filter = 'sepia(' + saturation + ')';
+      break;
     case 'effects__preview--marvin':
-    saturation *= 100
-    uploadPreview.style.filter = 'invert(' + saturation + '%)'
-    break;
+      saturation *= 100;
+      uploadPreview.style.filter = 'invert(' + saturation + '%)';
+      break;
     case 'effects__preview--phobos':
-    saturation *= 3
-    uploadPreview.style.filter = 'blur(' + saturation + 'px)'
-    break;
+      saturation *= 3;
+      uploadPreview.style.filter = 'blur(' + saturation + 'px)';
+      break;
     case 'effects__preview--heat':
-    saturation = saturation * 2 + 1
-    uploadPreview.style.filter = 'brightness(' + saturation + ')'
-    break;
+      saturation = saturation * 2 + 1;
+      uploadPreview.style.filter = 'brightness(' + saturation + ')';
+      break;
     case 'effects__preview--none':
-    uploadPreview.removeAttribute('style')
-    break;
+      uploadPreview.removeAttribute('style');
+      break;
   }
 };
 
