@@ -285,3 +285,52 @@ photoСlose.addEventListener('keydown', function (evt) {
     closePhoto();
   }
 });
+
+
+//2.4. Комментарии
+var textDescription = uploadForm.querySelector('.text__description');
+textDescription.setAttribute('maxlength', '140');
+
+textDescription.addEventListener('input', function (evt) {
+  var target = evt.target;
+  if (target.value.length > 140) {
+    target.setCustomValidity('Длина комментария не должна превышать 140 символов');
+  } else {
+    target.setCustomValidity('');
+  }
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
