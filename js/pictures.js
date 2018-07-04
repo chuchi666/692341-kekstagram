@@ -266,11 +266,11 @@ photoСlose.addEventListener('keydown', function (evt) {
 var textDescription = document.querySelector('.text__description');
 var hashtags = document.querySelector('.text__hashtags');
 
-var getHashtagsError = function () {
+var validateHashtag = function () {
   var hashtagsArr = hashtags.value.split(' ');
 
   for (var i = 0; i < hashtagsArr.length; i++) {
-    if (hashtagsArr[i].charAt(0) !== '#') {
+    if (hashtagsArr[i].startsWith('#')) {
       return 'Хэш-тег должен начинаться с символа #';
     } else if (hashtagsArr[i].split('#').length > 2) {
       return 'Хэш-теги должны быть разделены пробелами';
@@ -293,16 +293,12 @@ var getHashtagsError = function () {
 };
 
 hashtags.addEventListener('input', function () {
-  hashtags.setCustomValidity(getHashtagsError());
+  hashtags.setCustomValidity(validateHashtag());
 });
 
 textDescription.addEventListener('input', function (evt) {
   var target = evt.target;
-  if (target.value.length > 140) {
-    target.setCustomValidity('Длина комментария не должна превышать 140 символов');
-  } else {
-    target.setCustomValidity('');
-  }
+  target.setCustomValidity(target.value.length > 140 ? 'Длина комментария не должна превышать 140 символов' : '');
 });
 
 var uploadTextEscPressHandler = function (evt) {
