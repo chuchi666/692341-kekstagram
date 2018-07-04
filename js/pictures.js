@@ -161,7 +161,7 @@ var DEFAULT_SCALE_VALUE = 100;
 imageScale.value = DEFAULT_SCALE_VALUE + '%';
 
 var getCurrentScale = function () {
-  return parseInt(imageScale.value.split('%')[0], 10);
+  return Number(imageScale.value.split('%')[0]);
 };
 
 var scaleUploadPreview = function () {
@@ -196,21 +196,28 @@ scaleEffectValue.setAttribute('max', '100');
 
 var setFilterValue = function (filterName, filterValue) {
   var saturation = filterValue / scaleEffectValue.getAttribute('max');
-  if (filterName === 'effects__preview--chrome') {
-    uploadPreview.style.filter = 'grayscale(' + saturation + ')';
-  } else if (filterName === 'effects__preview--sepia') {
-    uploadPreview.style.filter = 'sepia(' + saturation + ')';
-  } else if (filterName === 'effects__preview--marvin') {
-    saturation *= 100;
-    uploadPreview.style.filter = 'invert(' + saturation + '%)';
-  } else if (filterName === 'effects__preview--phobos') {
-    saturation *= 3;
-    uploadPreview.style.filter = 'blur(' + saturation + 'px)';
-  } else if (filterName === 'effects__preview--heat') {
-    saturation = saturation * 2 + 1;
-    uploadPreview.style.filter = 'brightness(' + saturation + ')';
-  } else if (filterName === 'effects__preview--none') {
-    uploadPreview.removeAttribute('style');
+  switch(filterName) {
+    case 'effects__preview--chrome':
+    uploadPreview.style.filter = 'grayscale(' + saturation + ')'
+    break;
+    case 'effects__preview--sepia':
+    uploadPreview.style.filter = 'sepia(' + saturation + ')'
+    break;
+    case 'effects__preview--marvin':
+    saturation *= 100
+    uploadPreview.style.filter = 'invert(' + saturation + '%)'
+    break;
+    case 'effects__preview--phobos':
+    saturation *= 3
+    uploadPreview.style.filter = 'blur(' + saturation + 'px)'
+    break;
+    case 'effects__preview--heat':
+    saturation = saturation * 2 + 1
+    uploadPreview.style.filter = 'brightness(' + saturation + ')'
+    break;
+    case 'effects__preview--none':
+    uploadPreview.removeAttribute('style')
+    break;
   }
 };
 
@@ -222,11 +229,7 @@ var changeInputEffectHandler = function (evt) {
   var filterName = 'effects__preview--' + effectId;
   uploadPreview.setAttribute('class', filterName);
   setFilterValue(filterName, DEFAULT_SCALE_EFFECT_VALUE);
-  if (effectId === 'none') {
-    scale.classList.add('hidden');
-  } else {
-    scale.classList.remove('hidden');
-  }
+  scale.classList.toggle('hidden', effectId === 'none');
 };
 
 inputEffects.forEach(function (element) {
@@ -234,10 +237,10 @@ inputEffects.forEach(function (element) {
 });
 
 scalePin.addEventListener('mouseup', function () {
-  scaleEffectValue.value = (parseInt(scaleEffectValue.value, 10) + 5).toString();
+  scaleEffectValue.value = (Number(scaleEffectValue.value) + 5).toString();
   setFilterValue(
       uploadPreview.getAttribute('class'),
-      parseInt(scaleEffectValue.value, 10)
+      Number(scaleEffectValue.value)
   );
 });
 
