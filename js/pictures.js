@@ -185,6 +185,7 @@ imageScaleMinus.addEventListener('click', decreaseImageScaleHandler);
 // слайдер глубины
 var scale = document.querySelector('.scale');
 var scalePin = scale.querySelector('.scale__pin');
+
 var scaleLine = document.querySelector('.scale__line');
 var scaleLevel = document.querySelector('.scale__level');
 var lineWidth;
@@ -234,7 +235,6 @@ var changeInputEffectHandler = function (evt) {
 inputEffects.forEach(function (element) {
   element.addEventListener('click', changeInputEffectHandler);
 });
-
 
 // Движение ползунка слайдера
 scalePin.addEventListener('mousedown', function (evt) {
