@@ -41,7 +41,7 @@
   var filterPhotosNew = function (photos) {
     var newPhotos = [];
     for (var i = 0; i < 10; i++) {
-      var randomIndex = utils.getRandNumber(0, photos.length - 1);
+      var randomIndex = utils.generateNumber(0, photos.length - 1);
       newPhotos = newPhotos.concat(photos.splice(randomIndex, 1));
     }
     return newPhotos;
@@ -49,13 +49,7 @@
 
   var filterPhotosDiscussed = function (photos) {
     photos.sort(function (first, second) {
-      if (first.comments.length > second.comments.length) {
-        return -1;
-      }
-      if (first.comments.length < second.comments.length) {
-        return 1;
-      }
-      return 0;
+      return second.comments.length - first.comments.length;
     });
     return photos;
   };

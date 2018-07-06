@@ -13,14 +13,14 @@
     return evt.keyCode === ENTER_KEYCODE;
   };
 
-  var getRandNumber = function (min, max) {
+  var generateNumber = function (min, max) {
     return Math.floor(min + Math.random() * (max - min + 1));
   };
 
   window.utils = {
     isEscEvent: isEscEvent,
     isEnterEvent: isEnterEvent,
-    getRandNumber: getRandNumber
+    generateNumber: generateNumber
   };
 
 })();

@@ -24,7 +24,7 @@
     var commentsAmount = photo.comments.length > MAX_COMMENTS ? MAX_COMMENTS : photo.comments.length;
     for (var m = 0; m < commentsAmount; m++) {
       var comment = socialComment.cloneNode(true);
-      comment.querySelector('.social__picture').src = 'img/avatar-' + utils.getRandNumber(MAX_AVATAR_NUMBER, MIN_AVATAR_NUMBER) + '.svg';
+      comment.querySelector('.social__picture').src = 'img/avatar-' + utils.generateNumber(MAX_AVATAR_NUMBER, MIN_AVATAR_NUMBER) + '.svg';
       comment.querySelector('.social__text').textContent = photo.comments[m];
       fragment.appendChild(comment);
     }
