@@ -33,7 +33,7 @@
     return photoElement;
   };
 
-  var photoArray = document.querySelector('.pictures');
+  var pictures = document.querySelector('.pictures');
 
   var currentFilter = 'filter-popular';
   var previousFilter = currentFilter;
@@ -54,7 +54,7 @@
     return photos;
   };
 
-  var filter = {
+  var filterNameToFunction = {
     'filter-popular': function (a) {
       return a;
     },
@@ -64,16 +64,16 @@
 
   var onLoadPhotos = function (photos) {
     showFilter();
-    var newPhotos = filter[currentFilter](photos);
+    var newPhotos = filterNameToFunction[currentFilter](photos);
     var fragment = document.createDocumentFragment();
     newPhotos.forEach(function (e) {
       fragment.appendChild(renderPhoto(e));
     });
 
-    photoArray.querySelectorAll('.picture__link').forEach(function (e) {
+    pictures.querySelectorAll('.picture__link').forEach(function (e) {
       e.parentNode.removeChild(e);
     });
-    photoArray.appendChild(fragment);
+    pictures.appendChild(fragment);
 
   };
 
