@@ -53,11 +53,11 @@
     setDefaultScale();
   };
 
-  window.setDefaultScale = function () {
+  var setDefaultScale = function () {
     lineWidth = scaleLine.offsetWidth;
     scalePin.style.left = lineWidth + 'px';
     scaleLevel.style.width = lineWidth + 'px';
-  }
+  };
 
   inputEffects.forEach(function (element) {
     element.addEventListener('click', changeInputEffectHandler);
@@ -94,9 +94,8 @@
 
     document.addEventListener('mousemove', moveMouseHandler);
     document.addEventListener('mouseup', upMouseHandler);
-
-    window.effects = {
-      setDefaultScale: setDefaultScale
-    }
   });
+  window.effects = {
+    setDefaultScale: setDefaultScale
+  };
 })();

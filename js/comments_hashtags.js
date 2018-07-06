@@ -59,7 +59,7 @@
   var clearFields = function () {
     hashtags.value = '';
     textDescription.value = '';
-  }
+  };
 
   textDescription.addEventListener('keydown', uploadTextEscPressHandler);
   hashtags.addEventListener('keydown', uploadTextEscPressHandler);

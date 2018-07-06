@@ -14,7 +14,7 @@
   var cancelUploadOverlay = uploadOverlay.querySelector('#upload-cancel');
 
   uploadForm.addEventListener('submit', function (evt) {
-      evt.preventDefault();
+    evt.preventDefault();
     commentsHashtags.validateHashtag();
 
     if (!evt.target.checkValidity()) {
@@ -39,11 +39,10 @@
       .content.querySelector('.img-upload__message--error');
     uploadError.classList.remove('hidden');
     uploadError.style = 'position: fixed; right: 300px; left:300px; bottom: 400px; top:200px; max-width: 500px; max-height: 500px; padding: 15px; font-size: 20px';
-    console.log(uploadError);
     var fragment = document.createDocumentFragment();
     fragment.appendChild(uploadError);
     uploadOverlay.appendChild(fragment);
-  }
+  };
 
   var clearForm = function () {
     effects.setDefaultScale();
@@ -58,6 +57,13 @@
     }
   };
 
+  var enterPressUploadOverlayHandler = function (evt) {
+    if (utils.isEnterEvent(evt)) {
+      closeUploadOverlay();
+    }
+  };
+
+
   var openUploadOverlay = function () {
     uploadOverlay.classList.remove('hidden');
     document.addEventListener('keydown', escPressUploadOverlayHandler);
@@ -68,6 +74,8 @@
     document.removeEventListener('keydown', escPressUploadOverlayHandler);
   };
 
+  cancelUploadOverlay.addEventListener('keydown', enterPressUploadOverlayHandler);
+
   uploadFile.addEventListener('change', function () {
     openUploadOverlay();
   });
@@ -75,6 +83,5 @@
   cancelUploadOverlay.addEventListener('click', function () {
     clearForm();
   });
-
 
 })();
