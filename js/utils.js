@@ -14,7 +14,7 @@
 
   window.utils = {
     isEscEvent: isEscEvent,
-    getRandNumber: getRandNumber,
+    getRandNumber: getRandNumber
   };
 
 })();
