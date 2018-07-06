@@ -1,13 +1,13 @@
 'use strict';
 
 (function () {
-  window.getData = function (onLoad, onError) {
+  var getData = function (onLoad, onError) {
 
     var URL_GET = 'https://js.dump.academy/kekstagram/data';
     request('GET', URL_GET, onLoad, onError);
-  }
+  };
 
-  window.postData = function (data, onLoad, onError) {
+  var postData = function (data, onLoad, onError) {
 
     var URL_POST = 'https://js.dump.academy/kekstagram';
     request('POST', URL_POST, onLoad, onError, data);
@@ -44,10 +44,10 @@
     } else {
       xhr.send();
     }
-  }
+  };
 
   window.backend = {
     postData: postData,
     getData: getData
-  }
+  };
 })();
