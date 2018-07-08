@@ -5,49 +5,67 @@
 (function () {
   var utils = window.utils;
 
+  var HASHTAG_LENGTH = 20;
+  var COMMENT_LENGTH = 140;
+  var MAX_HASHTAGS = 5;
+  var HASHTAG_THRESHOLD = 2;
+
   var textDescription = document.querySelector('.text__description');
-  var hashtags = document.querySelector('.text__hashtags');
+  var textHashtags = document.querySelector('.text__hashtags');
 
   var validateHashtag = function () {
-    var hashtagsArr = hashtags.value.split(' ');
+    var hashtags = textHashtags.value.split(' ');
     var validationMessage = '';
-    if (hashtags.value) {
-      for (var i = 0; i < hashtagsArr.length; i++) {
-        if (!hashtagsArr[i].startsWith('#')) {
+    if (textHashtags.value) {
+      for (var i = 0; i < hashtags.length; i++) {
+        if (!hashtags[i].startsWith('#')) {
           validationMessage = 'Хэш-тег должен начинаться с символа #';
-        } else if (hashtagsArr[i].split('#').length > 2) {
+          // если после первого сплита хештег можно разделить по знаку #
+          // значит кто-то пропустил пробел
+        } else if (hashtags[i].split('#').length > HASHTAG_THRESHOLD) {
           validationMessage = 'Хэш-теги должны быть разделены пробелами';
-        } else if (hashtagsArr[i] === '#') {
+        } else if (hashtags[i] === '#') {
           validationMessage = 'Хеш-тег не может состоять только из одной решётки';
-        } else if (hashtagsArr[i].length > 20) {
+        } else if (hashtags[i].length > HASHTAG_LENGTH) {
           validationMessage = 'Длина хэш-тега не должна превышать 20 символов, включая решётку';
         } else {
-          for (var j = i + 1; j < hashtagsArr.length; j++) {
-            if (hashtagsArr[i].toLowerCase() === hashtagsArr[j].toLowerCase()) {
+          for (var j = i + 1; j < hashtags.length; j++) {
+            if (hashtags[i].toLowerCase() === hashtags[j].toLowerCase()) {
               validationMessage = 'Два одинаковых хэш-тега не допустимо';
             }
           }
         }
       }
     }
-    if (hashtagsArr.length > 5) {
+    if (hashtags.length > MAX_HASHTAGS) {
       validationMessage = 'Количество хэш-тегов не должно превышать 5 единиц';
     }
-    hashtags.setCustomValidity(validationMessage);
+    textHashtags.setCustomValidity(validationMessage);
   };
 
-  hashtags.addEventListener('input', function () {
-    hashtags.setCustomValidity('');
-    hashtags.removeAttribute('style');
-  });
+  var clearInputHashtagsHandler = function () {
+    textHashtags.setCustomValidity('');
+    textHashtags.removeAttribute('style');
+  };
 
-  textDescription.addEventListener('input', function () {
+  var clearInputDescriptionHandler = function () {
     textDescription.setCustomValidity('');
     textDescription.removeAttribute('style');
-  });
+  };
+
+  var openComments = function () {
+    textHashtags.addEventListener('input', clearInputHashtagsHandler);
+    textDescription.addEventListener('input', clearInputDescriptionHandler);
+  };
+
+  var closeComments = function () {
+    textHashtags.removeEventListener('input', clearInputHashtagsHandler);
+    textDescription.removeEventListener('input', clearInputDescriptionHandler);
+  };
+
 
   var validateComment = function () {
-    textDescription.setCustomValidity(textDescription.value.length > 140 ? 'Длина комментария не должна превышать 140 символов' : '');
+    textDescription.setCustomValidity(textDescription.value.length > COMMENT_LENGTH ? 'Длина комментария не должна превышать 140 символов' : '');
   };
 
   var uploadTextEscPressHandler = function (evt) {
@@ -57,16 +75,38 @@
   };
 
   var clearFields = function () {
-    hashtags.value = '';
+    textHashtags.value = '';
     textDescription.value = '';
+    textHashtags.style.border = '';
   };
 
-  textDescription.addEventListener('keydown', uploadTextEscPressHandler);
-  hashtags.addEventListener('keydown', uploadTextEscPressHandler);
+  var stopEscPressText = function () {
+    textDescription.addEventListener('keydown', uploadTextEscPressHandler);
+    textHashtags.addEventListener('keydown', uploadTextEscPressHandler);
+  };
+
+  var revertEscPressText = function () {
+    textDescription.removeEventListener('keydown', uploadTextEscPressHandler);
+    textHashtags.removeEventListener('keydown', uploadTextEscPressHandler);
+  };
+
+
+  var renderErrorBorder = function (field) {
+    if (field === 'comments') {
+      textDescription.setAttribute('style', 'border: 3px solid red;');
+      return;
+    }
+    if (field === 'hashtags') {
+      textHashtags.setAttribute('style', 'border: 3px solid red;');
+    }
+  };
 
   window.commentsHashtags = {
-    textDescription: textDescription,
-    hashtags: hashtags,
+    openComments: openComments,
+    closeComments: closeComments,
+    stopEscPressText: stopEscPressText,
+    revertEscPressText: revertEscPressText,
+    renderErrorBorder: renderErrorBorder,
     validateHashtag: validateHashtag,
     validateComment: validateComment,
     clearFields: clearFields

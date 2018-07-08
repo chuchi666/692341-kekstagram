@@ -15,6 +15,11 @@
 
   imageScale.value = DEFAULT_SCALE_VALUE + '%';
 
+  var setDefault = function () {
+    imageScale.value = DEFAULT_SCALE_VALUE + '%';
+    scaleUploadPreview();
+  };
+
   var getCurrentScale = function () {
     return Number(imageScale.value.split('%')[0]);
   };
@@ -33,6 +38,20 @@
     scaleUploadPreview();
   };
 
-  imageScalePlus.addEventListener('click', increaseImageScaleHandler);
-  imageScaleMinus.addEventListener('click', decreaseImageScaleHandler);
+  var openScale = function () {
+    imageScalePlus.addEventListener('click', increaseImageScaleHandler);
+    imageScaleMinus.addEventListener('click', decreaseImageScaleHandler);
+  };
+
+  var closeScale = function () {
+    imageScalePlus.removeEventListener('click', increaseImageScaleHandler);
+    imageScaleMinus.removeEventListener('click', decreaseImageScaleHandler);
+  };
+
+  window.scale = {
+    setDefault: setDefault,
+    openScale: openScale,
+    closeScale: closeScale
+  };
+
 })();

@@ -7,6 +7,7 @@
 
   var TIMEOUT_ERROR = 5000;
   var TIMEOUT_FILTER = 1000;
+  var NEW_PHOTOS_AMOUNT = 10;
   // Создание фотоэлементов через клонирование ноды
 
   var photoTemplate = document.querySelector('#picture')
@@ -40,7 +41,7 @@
 
   var filterPhotosNew = function (photos) {
     var newPhotos = [];
-    for (var i = 0; i < 10; i++) {
+    for (var i = 0; i < NEW_PHOTOS_AMOUNT; i++) {
       var randomIndex = utils.generateNumber(0, photos.length - 1);
       newPhotos = newPhotos.concat(photos.splice(randomIndex, 1));
     }
@@ -126,4 +127,5 @@
       previousFilter = currentFilter;
     }
   }, TIMEOUT_FILTER);
+
 })();
