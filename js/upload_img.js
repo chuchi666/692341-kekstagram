@@ -79,7 +79,6 @@
     cancelUploadOverlay.addEventListener('click', cancelUploadOverlayHandler);
     scale.openScale();
     commentsHashtags.openComments();
-
     commentsHashtags.preventPressingEsc();
     effects.openEffects();
     uploadForm.addEventListener('submit', submitUploadOverlayHandler);

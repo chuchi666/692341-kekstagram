@@ -9,7 +9,7 @@
   var COMMENT_LENGTH = 140;
   var MAX_HASHTAGS = 5;
   var HASHTAG_THRESHOLD = 2;
-  var ERROR_STYLE = 3;
+  var ERROR_STYLE = 'border: 3px solid red;';
 
   var textDescription = document.querySelector('.text__description');
   var textHashtags = document.querySelector('.text__hashtags');
@@ -51,7 +51,7 @@
 
   var clearInputDescriptionHandler = function () {
     textDescription.setCustomValidity('');
-    textHashtags.style = '';
+    textDescription.style = '';
   };
 
   var openComments = function () {
@@ -79,6 +79,7 @@
     textHashtags.value = '';
     textDescription.value = '';
     textHashtags.style.border = '';
+		textDescription.style.border = '';
   };
 
   var preventPressingEsc = function () {
@@ -94,12 +95,12 @@
 
   var renderErrorBorder = function (field) {
     if (field === 'comments') {
-      textDescription.setAttribute('style', 'border: ' + ERROR_STYLE + 'px solid red;');
-      //			textDescription.style.border = '3px solid red;'; почему такая формулировка не работает? где ошибка?
+      textDescription.setAttribute('style', ERROR_STYLE);
+//      textDescription.style.borderStyle = ERROR_STYLE; 
       return;
     }
     if (field === 'hashtags') {
-      textHashtags.setAttribute('style', 'border: ' + ERROR_STYLE + 'px solid red;');
+      textHashtags.setAttribute('style', ERROR_STYLE);
     }
   };
 
