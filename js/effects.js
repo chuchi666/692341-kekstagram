@@ -60,7 +60,7 @@
   var inputEffects = document.querySelectorAll('.effects__radio');
 
   inputEffects.forEach(function (element) {
-    element.removeAttribute('checked');
+    element.checked = '';
   });
 
   var changeInputEffectHandler = function (evt) {
