@@ -1,56 +1,80 @@
 'use strict';
 
-// 2.2. Наложение эффекта на изображение
-
 (function () {
 // слайдер глубины
+  var DEFAULT_SCALE_EFFECT_VALUE = 1;
+  var DEFAULT_FILTER = 'effects__preview--none';
+  var SATURATION_FACTOR_MARVIN = 100;
+  var SATURATION_FACTOR_PHOBOS = 3;
+  var SATURATION_FACTOR_HEAT_MULTIPLICATION = 2;
+  var SATURATION_FACTOR_HEAT_ROUND = 1;
+
   var scale = document.querySelector('.scale');
   var scalePin = scale.querySelector('.scale__pin');
   var scaleLine = document.querySelector('.scale__line');
   var scaleLevel = document.querySelector('.scale__level');
-  var uploadPreview = document.querySelector('.img-upload__preview');
-  // uploadPreview также имеется в scale.js
+  var uploadPreviewImg = document.querySelector('.img-upload__preview');
 
   var lineWidth;
   scale.classList.add('hidden');
 
-  var DEFAULT_SCALE_EFFECT_VALUE = 1;
+  var currentFilter = DEFAULT_FILTER;
 
-  var setFilterValue = function (filterName, saturation) {
-    switch (filterName) {
+  var setFilterValue = function (saturation) {
+    uploadPreviewImg.classList.forEach(function (e) {
+      if (e.startsWith('effects__preview--')) {
+        uploadPreviewImg.classList.remove(e);
+      }
+    });
+    uploadPreviewImg.classList.add(currentFilter);
+    switch (currentFilter) {
       case 'effects__preview--chrome':
-        uploadPreview.style.filter = 'grayscale(' + saturation + ')';
+        uploadPreviewImg.style.filter = 'grayscale(' + saturation + ')';
         break;
       case 'effects__preview--sepia':
-        uploadPreview.style.filter = 'sepia(' + saturation + ')';
+        uploadPreviewImg.style.filter = 'sepia(' + saturation + ')';
         break;
       case 'effects__preview--marvin':
-        saturation *= 100;
-        uploadPreview.style.filter = 'invert(' + saturation + '%)';
+        saturation *= SATURATION_FACTOR_MARVIN;
+        uploadPreviewImg.style.filter = 'invert(' + saturation + '%)';
         break;
       case 'effects__preview--phobos':
-        saturation *= 3;
-        uploadPreview.style.filter = 'blur(' + saturation + 'px)';
+        saturation *= SATURATION_FACTOR_PHOBOS;
+        uploadPreviewImg.style.filter = 'blur(' + saturation + 'px)';
         break;
       case 'effects__preview--heat':
-        saturation = saturation * 2 + 1;
-        uploadPreview.style.filter = 'brightness(' + saturation + ')';
+        saturation = saturation * SATURATION_FACTOR_HEAT_MULTIPLICATION + SATURATION_FACTOR_HEAT_ROUND;
+        uploadPreviewImg.style.filter = 'brightness(' + saturation + ')';
         break;
       case 'effects__preview--none':
-        uploadPreview.removeAttribute('style');
+        uploadPreviewImg.style.filter = '';
         break;
     }
   };
 
+  var setDefaultFilter = function () {
+    currentFilter = DEFAULT_FILTER;
+    setFilterValue();
+  };
+
   var inputEffects = document.querySelectorAll('.effects__radio');
+
+  inputEffects.forEach(function (element) {
+    element.checked = '';
+  });
 
   var changeInputEffectHandler = function (evt) {
     var effectId = evt.target.id.split('-')[1];
     var filterName = 'effects__preview--' + effectId;
-    uploadPreview.setAttribute('class', filterName);
-    setFilterValue(filterName, DEFAULT_SCALE_EFFECT_VALUE);
+    currentFilter = filterName;
+    setFilterValue(DEFAULT_SCALE_EFFECT_VALUE);
     scale.classList.toggle('hidden', effectId === 'none');
+    //  Согласно п.2.2 ТЗ "При выборе эффекта «Оригинал» слайдер скрывается", поэтому на первом фото (Оригинал) слайдер отсутствует__замечание Б1
     setDefaultScale();
+  };
+
+  var hideScaleEffect = function () {
+    scale.classList.add('hidden');
   };
 
   var setDefaultScale = function () {
@@ -64,7 +88,8 @@
   });
 
   // Движение ползунка слайдера
-  scalePin.addEventListener('mousedown', function (evt) {
+
+  var downMouseHandler = function (evt) {
 
     var startCoords = evt.clientX;
 
@@ -72,17 +97,13 @@
       moveEvt.preventDefault();
 
       var shift = startCoords - moveEvt.clientX;
-
       var movePin = scalePin.offsetLeft - shift;
 
       if (movePin > 0 && movePin < lineWidth) {
         startCoords = moveEvt.clientX;
         scalePin.style.left = (scalePin.offsetLeft - shift) + 'px';
         scaleLevel.style.width = movePin + 'px';
-        setFilterValue(
-            uploadPreview.getAttribute('class'),
-            Number(movePin / lineWidth)
-        );
+        setFilterValue(movePin / lineWidth);
       }
     };
 
@@ -94,8 +115,22 @@
 
     document.addEventListener('mousemove', moveMouseHandler);
     document.addEventListener('mouseup', upMouseHandler);
-  });
-  window.effects = {
-    setDefaultScale: setDefaultScale
   };
+
+  var openEffects = function () {
+    scalePin.addEventListener('mousedown', downMouseHandler);
+  };
+
+  var closeEffects = function () {
+    scalePin.removeEventListener('mousedown', downMouseHandler);
+  };
+
+  window.effects = {
+    setDefaultScale: setDefaultScale,
+    setDefaultFilter: setDefaultFilter,
+    hideScaleEffect: hideScaleEffect,
+    openEffects: openEffects,
+    closeEffects: closeEffects
+  };
+
 })();

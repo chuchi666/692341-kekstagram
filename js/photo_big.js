@@ -11,8 +11,11 @@
 
   var photoBig = document.querySelector('.big-picture');
   var bodyElement = document.body;
+  var photoСlose = document.querySelector('#picture-cancel');
 
   window.renderPhotoBig = function (photo) {
+    photoСlose.addEventListener('click', closePhotoBigClickHandler);
+    document.addEventListener('keydown', closePhotoBigEscHandler);
     bodyElement.classList.add('modal-open');
     photoBig.querySelector('.big-picture__img img').src = photo.url;
     photoBig.querySelector('.likes-count').textContent = photo.likes;
@@ -34,23 +37,22 @@
     return photoBig;
   };
 
-  // закрытие большого фото
-  var photoСlose = document.querySelector('#picture-cancel');
+  var closePhotoBigClickHandler = function () {
+    closePhoto();
+  };
+
+  var closePhotoBigEscHandler = function (evt) {
+    if (utils.isEscEvent(evt)) {
+      closePhoto();
+    }
+  };
 
   var closePhoto = function () {
     photoBig.classList.add('hidden');
     bodyElement.classList.add('modal-open');
+    photoСlose.removeEventListener('click', closePhotoBigClickHandler);
+    document.removeEventListener('keydown', closePhotoBigEscHandler);
   };
-
-  photoСlose.addEventListener('click', function () {
-    closePhoto();
-  });
-
-  document.addEventListener('keydown', function (evt) {
-    if (utils.isEscEvent(evt)) {
-      closePhoto();
-    }
-  });
 
   var socialCommentCount = document.querySelector('.social__comment-count');
   socialCommentCount.classList.add('visually-hidden');
