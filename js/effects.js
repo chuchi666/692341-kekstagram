@@ -2,6 +2,13 @@
 
 (function () {
 // слайдер глубины
+  var DEFAULT_SCALE_EFFECT_VALUE = 1;
+  var DEFAULT_FILTER = 'effects__preview--none';
+  var SATURATION_FACTOR_MARVIN = 100;
+  var SATURATION_FACTOR_PHOBOS = 3;
+  var SATURATION_FACTOR_HEAT_MULTIPLICATION = 2;
+  var SATURATION_FACTOR_HEAT_ROUND = 1;
+
   var scale = document.querySelector('.scale');
   var scalePin = scale.querySelector('.scale__pin');
   var scaleLine = document.querySelector('.scale__line');
@@ -10,9 +17,6 @@
 
   var lineWidth;
   scale.classList.add('hidden');
-
-  var DEFAULT_SCALE_EFFECT_VALUE = 1;
-  var DEFAULT_FILTER = 'effects__preview--none';
 
   var currentFilter = DEFAULT_FILTER;
 
@@ -31,15 +35,15 @@
         uploadPreviewImg.style.filter = 'sepia(' + saturation + ')';
         break;
       case 'effects__preview--marvin':
-        saturation *= 100;
+        saturation *= SATURATION_FACTOR_MARVIN;
         uploadPreviewImg.style.filter = 'invert(' + saturation + '%)';
         break;
       case 'effects__preview--phobos':
-        saturation *= 3;
+        saturation *= SATURATION_FACTOR_PHOBOS;
         uploadPreviewImg.style.filter = 'blur(' + saturation + 'px)';
         break;
       case 'effects__preview--heat':
-        saturation = saturation * 2 + 1;
+        saturation = saturation * SATURATION_FACTOR_HEAT_MULTIPLICATION + SATURATION_FACTOR_HEAT_ROUND;
         uploadPreviewImg.style.filter = 'brightness(' + saturation + ')';
         break;
       case 'effects__preview--none':
@@ -99,7 +103,7 @@
         startCoords = moveEvt.clientX;
         scalePin.style.left = (scalePin.offsetLeft - shift) + 'px';
         scaleLevel.style.width = movePin + 'px';
-        setFilterValue(Number(movePin / lineWidth));
+        setFilterValue(movePin / lineWidth);
       }
     };
 

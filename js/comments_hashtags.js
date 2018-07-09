@@ -9,6 +9,7 @@
   var COMMENT_LENGTH = 140;
   var MAX_HASHTAGS = 5;
   var HASHTAG_THRESHOLD = 2;
+  var ERROR_STYLE = 3;
 
   var textDescription = document.querySelector('.text__description');
   var textHashtags = document.querySelector('.text__hashtags');
@@ -80,12 +81,12 @@
     textHashtags.style.border = '';
   };
 
-  var stopEscPressText = function () {
+  var preventPressingEsc = function () {
     textDescription.addEventListener('keydown', uploadTextEscPressHandler);
     textHashtags.addEventListener('keydown', uploadTextEscPressHandler);
   };
 
-  var revertEscPressText = function () {
+  var listenPressingEsc = function () {
     textDescription.removeEventListener('keydown', uploadTextEscPressHandler);
     textHashtags.removeEventListener('keydown', uploadTextEscPressHandler);
   };
@@ -93,19 +94,19 @@
 
   var renderErrorBorder = function (field) {
     if (field === 'comments') {
-      textDescription.setAttribute('style', 'border: 3px solid red;');
+      textDescription.setAttribute('style', 'border: ' + ERROR_STYLE + 'px solid red;');
       return;
     }
     if (field === 'hashtags') {
-      textHashtags.setAttribute('style', 'border: 3px solid red;');
+      textHashtags.setAttribute('style', 'border: ' + ERROR_STYLE + 'px solid red;');
     }
   };
 
   window.commentsHashtags = {
     openComments: openComments,
     closeComments: closeComments,
-    stopEscPressText: stopEscPressText,
-    revertEscPressText: revertEscPressText,
+    preventPressingEsc: preventPressingEsc,
+    listenPressingEsc: listenPressingEsc,
     renderErrorBorder: renderErrorBorder,
     validateHashtag: validateHashtag,
     validateComment: validateComment,

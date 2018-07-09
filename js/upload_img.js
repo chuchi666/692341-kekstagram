@@ -79,7 +79,7 @@
     cancelUploadOverlay.addEventListener('click', cancelUploadOverlayHandler);
     scale.openScale();
     commentsHashtags.openComments();
-    commentsHashtags.stopEscPressText();
+    commentsHashtags.preventPressingEsc();
     effects.openEffects();
     uploadForm.addEventListener('submit', submitUploadOverlayHandler);
   };
@@ -93,7 +93,7 @@
     cancelUploadOverlay.removeEventListener('click', cancelUploadOverlayHandler);
     scale.closeScale();
     commentsHashtags.closeComments();
-    commentsHashtags.revertEscPressText();
+    commentsHashtags.listenPressingEsc();
     effects.closeEffects();
     uploadForm.removeEventListener('submit', submitUploadOverlayHandler);
   };
