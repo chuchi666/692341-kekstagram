@@ -79,7 +79,7 @@
     textHashtags.value = '';
     textDescription.value = '';
     textHashtags.style.border = '';
-		textDescription.style.border = '';
+    textDescription.style.border = '';
   };
 
   var preventPressingEsc = function () {
@@ -96,7 +96,7 @@
   var renderErrorBorder = function (field) {
     if (field === 'comments') {
       textDescription.setAttribute('style', ERROR_STYLE);
-//      textDescription.style.borderStyle = ERROR_STYLE; 
+      //      textDescription.style.borderStyle = ERROR_STYLE;
       return;
     }
     if (field === 'hashtags') {
