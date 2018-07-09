@@ -93,13 +93,13 @@
 
 
   var renderErrorBorder = function (field) {
-    if (field === 'comments') {
-			textDescription.setAttribute('style', 'border: ' + ERROR_STYLE + 'px solid red;')
-//      textDescription.style.border = '3px solid red;'; почему такая формулировка не работает? где ошибка?
+		if (field === 'comments') {
+			textDescription.setAttribute('style', 'border: ' + ERROR_STYLE + 'px solid red;');
+//			textDescription.style.border = '3px solid red;'; почему такая формулировка не работает? где ошибка?
       return;
     }
     if (field === 'hashtags') {
-      textHashtags.setAttribute('style', 'border: ' + ERROR_STYLE + 'px solid red;')
+      textHashtags.setAttribute('style', 'border: ' + ERROR_STYLE + 'px solid red;');
     }
   };
 
