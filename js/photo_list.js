@@ -11,23 +11,13 @@
   // Создание фотоэлементов через клонирование ноды
 
   var photoTemplate = document.querySelector('#picture')
-  .content.querySelector('.picture__link');
+    .content.querySelector('.picture__link');
 
   var renderPhoto = function (photo) {
     var photoElement = photoTemplate.cloneNode(true);
     var photoImg = photoElement.querySelector('.picture__img');
 
     photoImg.src = photo.url;
-    photoImg.addEventListener('click', function () {
-      renderPhotoBig(photo).classList.remove('hidden');
-    });
-
-    photoElement.addEventListener('keydown', function (evt) {
-      if (utils.isEnterEvent(evt)) {
-        renderPhotoBig(photo).classList.remove('hidden');
-      }
-    });
-
     photoElement.querySelector('.picture__stat--comments').textContent = photo.comments.length;
     photoElement.querySelector('.picture__stat--likes').textContent = photo.likes;
 
@@ -63,19 +53,37 @@
     'filter-discussed': filterPhotosDiscussed
   };
 
+  var listenersToClearMemory = [];
   var onLoadPhotos = function (photos) {
     showFilter();
+
     var newPhotos = filterNameToFunction[currentFilter](photos);
     var fragment = document.createDocumentFragment();
-    newPhotos.forEach(function (e) {
-      fragment.appendChild(renderPhoto(e));
+    var newElements = [];
+    newPhotos.forEach(function (item) {
+      var photoElement = renderPhoto(item);
+      var photoClickHandler = function () {
+        renderPhotoBig(item).classList.remove('hidden');
+      };
+      var photoKeydownHandler = function (evt) {
+        if (utils.isEnterEvent(evt)) {
+          renderPhotoBig(item).classList.remove('hidden');
+        }
+      };
+      photoElement.addEventListener('click', photoClickHandler);
+      photoElement.addEventListener('keydown', photoKeydownHandler);
+      listenersToClearMemory.push(function () {
+        photoElement.removeEventListener('click', photoClickHandler);
+        photoElement.removeEventListener('keydown', photoKeydownHandler);
+      });
+      newElements.push(photoElement);
+      fragment.appendChild(photoElement);
     });
 
     pictures.querySelectorAll('.picture__link').forEach(function (e) {
       e.parentNode.removeChild(e);
     });
     pictures.appendChild(fragment);
-
   };
 
   function renderError(response) {
@@ -121,8 +129,16 @@
 
   loadPhotos();
 
+  var removePhotosListeners = function () {
+    listenersToClearMemory.forEach(function (cb) {
+      cb();
+    });
+    listenersToClearMemory.length = 0;
+  };
+
   setInterval(function () {
     if (currentFilter !== previousFilter) {
+      removePhotosListeners();
       loadPhotos();
       previousFilter = currentFilter;
     }

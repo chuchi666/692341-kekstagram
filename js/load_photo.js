@@ -19,12 +19,14 @@
 
     if (matches) {
       var reader = new FileReader();
-      reader.addEventListener('load', function () {
+      var loadFileHandler = function () {
         uploadImg.preview.src = reader.result;
         for (var i = 0; i < effectsPreview.length; i++) {
           effectsPreview[i].style.backgroundImage = 'url(' + uploadImg.preview.src + ')';
         }
-      });
+        reader.removeEventListener('load', loadFileHandler);
+      };
+      reader.addEventListener('load', loadFileHandler);
       reader.readAsDataURL(file);
     }
   });

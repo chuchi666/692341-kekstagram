@@ -42,6 +42,7 @@
     xhr.timeout = REQUEST_TIMEOUT;
 
     xhr.open(method, url);
+
     if (method === 'POST') {
       xhr.send(data);
     } else {

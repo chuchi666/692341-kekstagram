@@ -70,10 +70,8 @@
 
     preview.src = '';
     scale.setDefault();
-    effects.hideScaleEffect();
     uploadOverlay.classList.remove('hidden');
-    var effectButton = document.querySelector('.effects__radio');
-    effectButton.checked = 'checked';
+    effects.setDefaultFilter();
     document.addEventListener('keydown', escPressUploadOverlayHandler);
     cancelUploadOverlay.addEventListener('keydown', enterPressUploadOverlayHandler);
     cancelUploadOverlay.addEventListener('click', cancelUploadOverlayHandler);
@@ -81,13 +79,13 @@
     commentsHashtags.openComments();
     commentsHashtags.preventPressingEsc();
     effects.openEffects();
+    effects.openPinEffects();
     uploadForm.addEventListener('submit', submitUploadOverlayHandler);
   };
 
   var closeUploadOverlay = function () {
 
     uploadOverlay.classList.add('hidden');
-    effects.setDefaultFilter();
     document.removeEventListener('keydown', escPressUploadOverlayHandler);
     cancelUploadOverlay.removeEventListener('keydown', enterPressUploadOverlayHandler);
     cancelUploadOverlay.removeEventListener('click', cancelUploadOverlayHandler);
@@ -95,6 +93,7 @@
     commentsHashtags.closeComments();
     commentsHashtags.listenPressingEsc();
     effects.closeEffects();
+    effects.closePinEffects();
     uploadForm.removeEventListener('submit', submitUploadOverlayHandler);
   };
 
